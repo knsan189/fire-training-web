@@ -5,8 +5,8 @@ clone:
       - /home/jin:/app
       - /home/jin/.ssh:/root/.ssh:ro
     commands:
-      - cd /app/tennis/web
-      - git config --system --add safe.directory /app/tennis/web
+      - cd /app/Projects/fire-training-web
+      - git config --system --add safe.directory /app/Projects/fire-training-web
       - git pull
 
 steps:
@@ -15,6 +15,6 @@ steps:
     volumes:
       - /home/jin:/app
     commands:
-      - cd /app/tennis/web
-      - npm install
+      - cd /app/Projects/fire-training-web
+      - npm ci
       - npm run build
