@@ -3,7 +3,7 @@ import { useState } from "react"
 import { useGetUsersQuery, type User } from "../userApiSlice"
 
 interface UserAutocompleteProps {
-  value: User
+  value: User | null
   onChange: (value: User | null) => void
 }
 
@@ -25,7 +25,7 @@ const UserAutocomplete = ({ value, onChange }: UserAutocompleteProps) => {
       value={value}
       onChange={handleChange}
       onInputChange={(_event, value) => setInputValue(value)}
-      renderInput={params => <TextField {...params} label="사용자" />}
+      renderInput={params => <TextField {...params} />}
       options={users}
       getOptionLabel={user => user.name ?? user.email}
       renderOption={(props, user) => (

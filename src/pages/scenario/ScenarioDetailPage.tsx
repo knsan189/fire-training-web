@@ -3,7 +3,15 @@ import {
   type Scenario,
   useGetScenarioDetailsQuery,
 } from "../../features/scenario/scenarioApiSlice"
-import { Card, CardContent, CardHeader, Stack, TextField } from "@mui/material"
+import {
+  Box,
+  Card,
+  CardContent,
+  CardHeader,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material"
 import ContentHeader from "../../features/layout/components/ContentHeader"
 import { useEffect, useState } from "react"
 import ExerciseTypeSelectCheckboxCard from "../../features/exerciseType/components/ExerciseTypeCheckboxCard"
@@ -13,6 +21,7 @@ import { type ExerciseType } from "../../features/exerciseType/exerciesTypeApiSl
 import { type TargetGroup } from "../../features/targetGroup/targetGroupApiSlice"
 import { type Prerequisite } from "../../features/prerequisite/prerequisiteApiSlice"
 import UserAutocomplete from "../../features/user/components/UserAutocomplete"
+import UserAutocompleteMultiple from "../../features/user/components/UserAutocompleteMultiple"
 
 const initialValues: Omit<Scenario, "id" | "createdAt" | "updatedAt"> = {
   name: "",
@@ -30,6 +39,14 @@ const initialValues: Omit<Scenario, "id" | "createdAt" | "updatedAt"> = {
   notes: null,
   exerciseTypeIds: [],
 }
+
+const instructorRoles = [
+  { role: "점화", key: "ignition" as const },
+  { role: "안전", key: "safety" as const },
+  { role: "주", key: "main" as const },
+  { role: "보조", key: "assistant" as const },
+  { role: "급수", key: "water" as const },
+]
 
 const ScenarioDetailPage = () => {
   const { id = "" } = useParams()
@@ -127,10 +144,36 @@ const ScenarioDetailPage = () => {
       <Card>
         <CardHeader title="교관" />
         <CardContent>
-          <UserAutocomplete
-            value={values.officeInCharge}
-            onChange={handleChangeOfficeInCharge}
-          />
+          <Stack spacing={3}>
+            <Box>
+              <Typography variant="subtitle2" gutterBottom>
+                총괄 교관
+              </Typography>
+              <UserAutocomplete
+                value={scenario?.officeInCharge ?? null}
+                onChange={() => {
+                  // TODO: 총괄 교관 변경 핸들러 구현
+                }}
+              />
+            </Box>
+            {instructorRoles.map(({ role, key }) => {
+              const selectedUsers = scenario?.instructorsByRole[key] ?? []
+              return (
+                <Box key={key}>
+                  <Typography variant="subtitle2" gutterBottom>
+                    {role} 교관
+                  </Typography>
+                  <UserAutocompleteMultiple
+                    value={selectedUsers}
+                    onChange={() => {
+                      // TODO: 교관 변경 핸들러 구현
+                    }}
+                    placeholder={`${role} 교관을 선택하세요`}
+                  />
+                </Box>
+              )
+            })}
+          </Stack>
         </CardContent>
       </Card>
     </>
