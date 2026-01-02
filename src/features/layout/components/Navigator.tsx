@@ -8,11 +8,11 @@ import {
 } from "@mui/material"
 import { useLocation, useNavigate } from "react-router-dom"
 import {
-  Dashboard,
   ExpandMore,
   ExpandLess,
   ForkRight,
   People,
+  Settings,
 } from "@mui/icons-material"
 import { useEffect, useRef, useState } from "react"
 import { neutral } from "../../../app/theme/colors"
@@ -26,12 +26,6 @@ interface Path {
 
 const paths: Path[] = [
   {
-    text: "대시보드",
-    to: "/",
-    icon: <Dashboard />,
-    children: [],
-  },
-  {
     to: "/scenario",
     text: "시나리오 관리",
     icon: <ForkRight />,
@@ -40,6 +34,11 @@ const paths: Path[] = [
     to: "/user",
     text: "사용자 관리",
     icon: <People />,
+  },
+  {
+    to: "/setting",
+    text: "설정",
+    icon: <Settings />,
   },
 ]
 

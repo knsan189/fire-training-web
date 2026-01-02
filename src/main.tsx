@@ -5,6 +5,7 @@ import { App } from "./App"
 import { store } from "./app/store"
 import { CssBaseline, ThemeProvider } from "@mui/material"
 import theme from "./app/theme/theme"
+import { SnackbarProvider } from "notistack"
 
 const container = document.getElementById("root")
 
@@ -15,8 +16,12 @@ if (container) {
     <StrictMode>
       <Provider store={store}>
         <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <App />
+          <SnackbarProvider
+            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+          >
+            <CssBaseline />
+            <App />
+          </SnackbarProvider>
         </ThemeProvider>
       </Provider>
     </StrictMode>,

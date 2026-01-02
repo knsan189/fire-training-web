@@ -1,4 +1,4 @@
-import { Card } from "@mui/material"
+import { Button, Card } from "@mui/material"
 import ContentHeader from "../../features/layout/components/ContentHeader"
 import DataTable from "../../features/layout/components/DataTable"
 import {
@@ -7,14 +7,31 @@ import {
 } from "../../features/scenario/scenarioApiSlice"
 import type { GridColDef, GridRowParams } from "@mui/x-data-grid"
 import { useNavigate } from "react-router-dom"
+import { Add } from "@mui/icons-material"
 
 const columns: GridColDef<Scenario>[] = [
-  { field: "id", headerName: "ID", width: 100 },
-  { field: "name", headerName: "이름", width: 200 },
-  { field: "briefDescription", headerName: "간략한 설명", width: 200 },
-  { field: "startedAt", headerName: "시작 시간", width: 200 },
-  { field: "date", headerName: "날짜", width: 200 },
-  { field: "weather", headerName: "날씨", width: 200 },
+  {
+    field: "id",
+    headerName: "ID",
+    width: 100,
+    align: "center",
+    headerAlign: "center",
+  },
+  { field: "name", headerName: "교육 제목", flex: 1 },
+  {
+    field: "date",
+    headerName: "날짜",
+    width: 150,
+    align: "center",
+    headerAlign: "center",
+  },
+  {
+    field: "weather",
+    headerName: "날씨",
+    width: 100,
+    align: "center",
+    headerAlign: "center",
+  },
 ]
 
 const ScenarioListPage = () => {
@@ -25,9 +42,25 @@ const ScenarioListPage = () => {
     navigate(`/scenario/${row.id}`)
   }
 
+  const handleAddScenario = () => {
+    navigate("/scenario/new")
+  }
+
   return (
     <>
-      <ContentHeader title="시나리오 목록" breadcrumbs={[]} />
+      <ContentHeader
+        title="시나리오 목록"
+        breadcrumbs={[]}
+        action={
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleAddScenario}
+          >
+            <Add />
+          </Button>
+        }
+      />
       <Card>
         <DataTable
           rows={scenarios}

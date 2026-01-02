@@ -61,9 +61,7 @@ const Sidebar = () => {
       >
         <AppBar position="static" color="transparent">
           <Toolbar>
-            <Box pl={1} pt={1}>
-              <img src="/logo_white.svg" alt="logo" width={25} />
-            </Box>
+            <Box pl={1} pt={1}></Box>
           </Toolbar>
         </AppBar>
         <Navigator />

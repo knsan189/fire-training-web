@@ -3,18 +3,33 @@ import type { ExerciseType } from "../exerciseType/exerciesTypeApiSlice"
 import type { Prerequisite } from "../prerequisite/prerequisiteApiSlice"
 import type { TargetGroup } from "../targetGroup/targetGroupApiSlice"
 import type { User } from "../user/userApiSlice"
+import type { Equipment } from "../equipment/equipmentApiSlice"
 
-export interface Instructor {
-  id: number
-
-  scenarioId: number
-
-  role: string
-
-  userId: number
-
-  user: User
+export enum ScenarioInstructorRole {
+  Ignition = "ignition",
+  Safety = "safety",
+  Main = "main",
+  Assistant = "sub",
+  Water = "water_supply",
 }
+
+export interface ScenarioEquipment {
+  id: 1
+  scenarioId: 1
+  equipmentId: 1
+  equipment: Equipment
+  quantity: "10.00"
+  unit: "개"
+  isChecked: true
+  note: null
+}
+
+export enum ScenarioLevel {
+  low = "low",
+  medium = "medium",
+  high = "high",
+}
+
 export interface Scenario {
   id: number
 
@@ -22,9 +37,9 @@ export interface Scenario {
 
   briefDescription: string | null
 
-  startedAt: Date | null
+  startedAt: string | null
 
-  date: Date | null
+  date: string | null
 
   weather: string | null
 
@@ -33,8 +48,6 @@ export interface Scenario {
   humidity: number | null
 
   duration: number | null
-
-  officeInCharge: User | null
 
   exerciseTypeIds: ExerciseType["id"][]
 
@@ -49,63 +62,102 @@ export interface Scenario {
   createdAt: Date
 
   updatedAt: Date
+
+  level: ScenarioLevel | null
 }
 
-// API 응답 타입 (instructorsByRole 없음)
-export interface ScenarioDetailResponse extends Scenario {
-  officeInCharge: User
+export interface ScenarioDetail extends Scenario {
+  equipments: ScenarioEquipment[]
 
-  instructors: Instructor[]
+  officeInCharge: User | null
+
+  instructors: Record<ScenarioInstructorRole, User[]>
+
+  nozzleSettings: ScenarioNozzleSetting[]
 }
 
-// 클라이언트에서 사용하는 타입 (instructorsByRole 포함)
-export interface ScenarioDetail extends ScenarioDetailResponse {
-  // 역할별로 그룹화된 교관들
-  instructorsByRole: {
-    ignition: User[]
-    safety: User[]
-    main: User[]
-    assistant: User[]
-    water: User[]
-  }
+export enum NozzleSettingPurpose {
+  EDUCATION = "education",
+  EMERGENCY = "emergency",
+  SAFETY = "safety",
+}
+
+export interface ScenarioNozzleSetting {
+  hoseCount: number
+  pressure: number
+  waterSource: string
+  purpose: NozzleSettingPurpose
+  note: string
+}
+export interface CreateScenarioRequest {
+  name: string
+  briefDescription?: string
+  startedAt?: string
+  date?: string
+  weather?: string
+  temperature?: number
+  humidity?: number
+
+  duration?: number
+
+  level: ScenarioLevel
+
+  officeInChargeId?: number
+
+  exerciseTypeIds?: number[]
+
+  targetGroupIds?: number[]
+
+  prerequisiteIds?: number[]
+
+  instructors: Record<ScenarioInstructorRole, User["id"][]>
+
+  numberOfStudents?: number
+
+  notes?: string
+
+  equipments?: ScenarioEquipment[]
+
+  nozzleSettings?: ScenarioNozzleSetting[]
+}
+
+export interface UpdateScenarioRequest extends CreateScenarioRequest {
+  id: number
 }
 
 const scenarioApiSlice = baseApi.injectEndpoints({
   endpoints: builder => ({
     getScenarios: builder.query<Scenario[], void>({
       query: () => "/scenarios",
+      providesTags: ["Scenario"],
     }),
     getScenarioDetails: builder.query<ScenarioDetail, number>({
       query: id => `/scenarios/${id}`,
-      transformResponse: (response: ScenarioDetailResponse): ScenarioDetail => {
-        // instructors 배열을 역할별로 그룹화
-        const instructorsByRole = {
-          ignition: [] as User[],
-          safety: [] as User[],
-          main: [] as User[],
-          assistant: [] as User[],
-          water: [] as User[],
-        }
-
-        response.instructors?.forEach(instructor => {
-          const role = instructor.role.toLowerCase()
-          if (role in instructorsByRole) {
-            instructorsByRole[role as keyof typeof instructorsByRole].push(
-              instructor.user,
-            )
-          }
-        })
-
-        return {
-          ...response,
-          instructorsByRole,
-        }
-      },
+    }),
+    createScenario: builder.mutation<Scenario, CreateScenarioRequest>({
+      query: body => ({
+        url: "/scenarios",
+        method: "POST",
+        body,
+      }),
+      invalidatesTags: ["Scenario"],
+    }),
+    updateScenario: builder.mutation<Scenario, UpdateScenarioRequest>({
+      query: ({ id, ...body }) => ({
+        url: `/scenarios/${id}`,
+        method: "PATCH",
+        body,
+      }),
+      invalidatesTags: ["Scenario"],
     }),
   }),
 })
 
-export const { useGetScenariosQuery, useGetScenarioDetailsQuery } =
-  scenarioApiSlice
+export const {
+  useGetScenariosQuery,
+  useGetScenarioDetailsQuery,
+  useCreateScenarioMutation,
+  useUpdateScenarioMutation,
+} = scenarioApiSlice
 
 export default scenarioApiSlice

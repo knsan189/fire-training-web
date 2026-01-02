@@ -5,6 +5,7 @@ import ScenarioDetailPage from "./pages/scenario/ScenarioDetailPage"
 import UserListPage from "./pages/user/UserListPage"
 import UserDetailPage from "./pages/user/UserDetailPage"
 import LayoutOutlet from "./features/layout/components/LayoutOutlet"
+import SettingPage from "./pages/SettingPage"
 
 export const App = () => {
   return (
@@ -16,6 +17,7 @@ export const App = () => {
           <Route path="/scenario/:id" element={<ScenarioDetailPage />} />
           <Route path="/user" element={<UserListPage />} />
           <Route path="/user/:id" element={<UserDetailPage />} />
+          <Route path="/setting" element={<SettingPage />} />
         </Route>
       </Routes>
     </BrowserRouter>
