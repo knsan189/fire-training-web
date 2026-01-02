@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import {
   ScenarioInstructorRole,
   type ScenarioDetail,
@@ -116,6 +116,7 @@ const valuesToScenarioRequest = (
 const ScenarioDetailPage = () => {
   const { id = "new" } = useParams()
   const [values, setValues] = useState(initialValues)
+  const navigate = useNavigate()
   const isNew = id === "new"
   const { data: scenario, isLoading } = useGetScenarioDetailsQuery(
     isNew ? skipToken : Number(id),
@@ -193,6 +194,7 @@ const ScenarioDetailPage = () => {
       }).unwrap()
     } else {
       await createScenario(valuesToScenarioRequest(values)).unwrap()
+      navigate("/scenario")
     }
     enqueueSnackbar(
       isNew ? "훈련 등록이 완료되었습니다." : "훈련 수정이 완료되었습니다.",
