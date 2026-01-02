@@ -28,7 +28,7 @@ interface EquipmentDialogProps {
 const initialValues: CreateEquipmentRequest = {
   name: "",
   description: "",
-  unit: "",
+  unit: "대",
   isActive: true,
 }
 
@@ -113,6 +113,15 @@ const EquipmentDialog = ({ open, onClose }: EquipmentDialogProps) => {
               value={values.name}
               onChange={handleChange}
               disabled={isLoading}
+              required
+            />
+            <TextField
+              label="표시 단위"
+              name="unit"
+              value={values.unit}
+              onChange={handleChange}
+              disabled={isLoading}
+              required
             />
             <TextField
               label="설명"
@@ -120,13 +129,8 @@ const EquipmentDialog = ({ open, onClose }: EquipmentDialogProps) => {
               value={values.description}
               onChange={handleChange}
               disabled={isLoading}
-            />
-            <TextField
-              label="단위"
-              name="unit"
-              value={values.unit}
-              onChange={handleChange}
-              disabled={isLoading}
+              multiline
+              minRows={3}
             />
             <TextField
               select
@@ -170,4 +174,3 @@ const EquipmentDialog = ({ open, onClose }: EquipmentDialogProps) => {
 }
 
 export default EquipmentDialog
-

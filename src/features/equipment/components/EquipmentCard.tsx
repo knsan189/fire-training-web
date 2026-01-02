@@ -37,7 +37,7 @@ const EquipmentCard = () => {
                 onClick={() => setDialog(equipment)}
                 color={equipment.isActive ? "primary" : "secondary"}
               >
-                {equipment.name}
+                {equipment.name}({equipment.unit})
               </Button>
             ))}
           </Stack>
