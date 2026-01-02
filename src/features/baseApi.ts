@@ -1,9 +1,8 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
 
-const baseUrl =
-  import.meta.env.NODE_ENV === "production"
-    ? "https://fire-api.haneul.app"
-    : "http://localhost:3000"
+const baseUrl = import.meta.env.PROD
+  ? "https://fire-api.haneul.app"
+  : "http://localhost:3000"
 
 const baseApi = createApi({
   reducerPath: "baseApi",
