@@ -1,4 +1,11 @@
-import { Button, Card, CardContent, CardHeader, Stack } from "@mui/material"
+import {
+  Button,
+  Card,
+  CardContent,
+  CardHeader,
+  Divider,
+  Stack,
+} from "@mui/material"
 import {
   type TargetGroup,
   useGetTargetGroupsQuery,
@@ -16,13 +23,15 @@ const TargetGroupCard = () => {
     <>
       <Card>
         <CardHeader
-          title="교육 대상 관리"
+          title="훈련 대상 관리"
+          subheader="Target Group"
           action={
             <IconButton onClick={() => setDialog(true)}>
               <Add />
             </IconButton>
           }
         />
+        <Divider />
         <CardContent>
           <Stack direction="row" spacing={1} flexWrap="wrap">
             {targetGroups.map(targetGroup => (

@@ -15,7 +15,9 @@ const ExerciseTypeCheckboxes = ({
   disabled,
   onChange,
 }: ExerciseTypeSelectProps) => {
-  const { data: exerciseTypes = [] } = useGetExerciseTypesQuery({})
+  const { data: exerciseTypes = [] } = useGetExerciseTypesQuery({
+    isActive: true,
+  })
 
   const handleChange = (exerciseType: ExerciseType, checked: boolean) => {
     if (checked) {

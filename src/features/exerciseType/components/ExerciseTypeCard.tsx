@@ -1,4 +1,11 @@
-import { Button, Card, CardContent, CardHeader, Stack } from "@mui/material"
+import {
+  Button,
+  Card,
+  CardContent,
+  CardHeader,
+  Divider,
+  Stack,
+} from "@mui/material"
 import {
   type ExerciseType,
   useGetExerciseTypesQuery,
@@ -16,15 +23,17 @@ const ExerciseTypeCard = () => {
     <>
       <Card>
         <CardHeader
-          title="운동 유형 관리"
+          title="훈련 종류 관리"
+          subheader="Exercise Type"
           action={
             <IconButton onClick={() => setDialog(true)}>
               <Add />
             </IconButton>
           }
         />
+        <Divider />
         <CardContent>
-          <Stack direction="row" spacing={1} flexWrap="wrap">
+          <Stack direction="row" spacing={1} flexWrap="wrap" rowGap={1}>
             {exerciseTypes.map(exerciseType => (
               <Button
                 key={exerciseType.id}
@@ -43,4 +52,3 @@ const ExerciseTypeCard = () => {
 }
 
 export default ExerciseTypeCard
-

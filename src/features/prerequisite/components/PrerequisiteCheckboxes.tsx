@@ -15,7 +15,9 @@ const PrerequisiteCheckboxes = ({
   disabled,
   onChange,
 }: PrerequisiteCheckboxesProps) => {
-  const { data: prerequisites = [] } = useGetPrerequisitesQuery({})
+  const { data: prerequisites = [] } = useGetPrerequisitesQuery({
+    isActive: true,
+  })
   const handleChange = (prerequisite: Prerequisite, checked: boolean) => {
     if (checked) {
       onChange([...value, prerequisite.id])

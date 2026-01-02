@@ -1,4 +1,11 @@
-import { Button, Card, CardContent, CardHeader, Stack } from "@mui/material"
+import {
+  Button,
+  Card,
+  CardContent,
+  CardHeader,
+  Divider,
+  Stack,
+} from "@mui/material"
 import {
   type Prerequisite,
   useGetPrerequisitesQuery,
@@ -16,15 +23,17 @@ const PrerequisiteCard = () => {
     <>
       <Card>
         <CardHeader
-          title="사전 조건 관리"
+          title="사전 요구사항 관리"
+          subheader="Prerequisite"
           action={
             <IconButton onClick={() => setDialog(true)}>
               <Add />
             </IconButton>
           }
         />
+        <Divider />
         <CardContent>
-          <Stack direction="row" spacing={1} flexWrap="wrap">
+          <Stack direction="row" spacing={1} flexWrap="wrap" rowGap={1}>
             {prerequisites.map(prerequisite => (
               <Button
                 key={prerequisite.id}

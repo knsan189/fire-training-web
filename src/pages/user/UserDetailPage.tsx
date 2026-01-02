@@ -33,7 +33,7 @@ interface Values {
 
 const initialValues: Values = {
   name: "",
-  email: "",
+  email: "test@test.com",
   password: "",
   role: UserRole.Instructor,
   isActive: true,
@@ -81,13 +81,14 @@ const UserDetailPage = () => {
   const [createUser, { isLoading: isCreating }] = useCreateUserMutation()
   const [updateUser, { isLoading: isUpdating }] = useUpdateUserMutation()
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     try {
       if (id === "new") {
-        createUser(values)
+        await createUser(values).unwrap()
+        navigate("/user")
       } else {
-        updateUser({ id: Number(id), ...values })
+        await updateUser({ id: Number(id), ...values }).unwrap()
       }
       enqueueSnackbar("사용자 저장에 성공했습니다.", {
         variant: "success",
@@ -113,7 +114,7 @@ const UserDetailPage = () => {
           </Button>
         }
       />
-      <Card component="form" onSubmit={handleSubmit}>
+      <Card component="form" onSubmit={event => void handleSubmit(event)}>
         <CardContent>
           <Stack spacing={3}>
             <TextField
@@ -124,14 +125,13 @@ const UserDetailPage = () => {
               onChange={handleChange}
               required
             />
-            <TextField
+            {/* <TextField
               fullWidth
               label="이메일"
               name="email"
               value={values.email}
               onChange={handleChange}
-            />
-
+            /> */}
             <TextField
               fullWidth
               label="활성화"
