@@ -5,9 +5,9 @@ import ExerciseTypeCard from "../features/exerciseType/components/ExerciseTypeCa
 const SettingPage = () => {
   return (
     <>
-      <PrerequisiteCard />
-      <TargetGroupCard />
       <ExerciseTypeCard />
+      <TargetGroupCard />
+      <PrerequisiteCard />
     </>
   )
 }

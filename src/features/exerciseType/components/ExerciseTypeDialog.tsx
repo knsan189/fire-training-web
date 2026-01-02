@@ -10,13 +10,15 @@ import {
 } from "@mui/material"
 import {
   useCreateExerciseTypeMutation,
+  useDeleteExerciseTypeMutation,
   useUpdateExerciseTypeMutation,
   type CreateExerciseTypeRequest,
   type ExerciseType,
 } from "../exerciesTypeApiSlice"
 import { type ChangeEvent, type FormEvent, useEffect, useState } from "react"
-import { Close, Save } from "@mui/icons-material"
+import { Close, Delete, Save } from "@mui/icons-material"
 import { useSnackbar } from "notistack"
+import ConfirmButton from "../../layout/components/ConfirmButton"
 
 interface ExerciseTypeDialogProps {
   open: ExerciseType | boolean
@@ -35,7 +37,8 @@ const ExerciseTypeDialog = ({ open, onClose }: ExerciseTypeDialogProps) => {
     useCreateExerciseTypeMutation()
   const [updateExerciseType, { isLoading: isUpdating }] =
     useUpdateExerciseTypeMutation()
-
+  const [deleteExerciseType, { isLoading: isDeleting }] =
+    useDeleteExerciseTypeMutation()
   const { enqueueSnackbar } = useSnackbar()
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -79,7 +82,21 @@ const ExerciseTypeDialog = ({ open, onClose }: ExerciseTypeDialogProps) => {
     }
   }, [open])
 
-  const isLoading = isCreating || isUpdating
+  const handleDelete = async () => {
+    if (typeof open !== "object") return
+    try {
+      await deleteExerciseType(open.id).unwrap()
+      handleClose()
+      enqueueSnackbar("운동 유형 관리가 성공적으로 삭제되었습니다.", {
+        variant: "success",
+      })
+    } catch {
+      enqueueSnackbar("운동 유형 관리 삭제에 실패했습니다.", {
+        variant: "error",
+      })
+    }
+  }
+  const isLoading = isCreating || isUpdating || isDeleting
   return (
     <Dialog open={Boolean(open)} onClose={handleClose} fullWidth>
       <form onSubmit={e => void handleSubmit(e)}>
@@ -114,6 +131,16 @@ const ExerciseTypeDialog = ({ open, onClose }: ExerciseTypeDialogProps) => {
           </Stack>
         </DialogContent>
         <DialogActions>
+          {typeof open === "object" && (
+            <ConfirmButton
+              onClick={() => void handleDelete()}
+              loading={isDeleting}
+              color="error"
+              startIcon={<Delete />}
+            >
+              삭제
+            </ConfirmButton>
+          )}
           <Button type="submit" startIcon={<Save />} loading={isLoading}>
             저장
           </Button>
@@ -132,4 +159,3 @@ const ExerciseTypeDialog = ({ open, onClose }: ExerciseTypeDialogProps) => {
 }
 
 export default ExerciseTypeDialog
-

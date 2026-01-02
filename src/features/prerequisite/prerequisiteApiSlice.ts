@@ -79,6 +79,7 @@ export const {
   useGetPrerequisitesQuery,
   useCreatePrerequisiteMutation,
   useUpdatePrerequisiteMutation,
+  useDeletePrerequisiteMutation,
 } = prerequisiteApiSlice
 
 export default prerequisiteApiSlice

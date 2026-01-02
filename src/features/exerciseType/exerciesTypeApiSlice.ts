@@ -79,4 +79,5 @@ export const {
   useGetExerciseTypesQuery,
   useCreateExerciseTypeMutation,
   useUpdateExerciseTypeMutation,
+  useDeleteExerciseTypeMutation,
 } = exerciseTypeApiSlice

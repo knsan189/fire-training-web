@@ -10,13 +10,15 @@ import {
 } from "@mui/material"
 import {
   useCreateTargetGroupMutation,
+  useDeleteTargetGroupMutation,
   useUpdateTargetGroupMutation,
   type CreateTargetGroupRequest,
   type TargetGroup,
 } from "../targetGroupApiSlice"
 import { type ChangeEvent, type FormEvent, useEffect, useState } from "react"
-import { Close, Save } from "@mui/icons-material"
+import { Close, Delete, Save } from "@mui/icons-material"
 import { useSnackbar } from "notistack"
+import ConfirmButton from "../../layout/components/ConfirmButton"
 
 interface TargetGroupDialogProps {
   open: TargetGroup | boolean
@@ -35,7 +37,8 @@ const TargetGroupDialog = ({ open, onClose }: TargetGroupDialogProps) => {
     useCreateTargetGroupMutation()
   const [updateTargetGroup, { isLoading: isUpdating }] =
     useUpdateTargetGroupMutation()
-
+  const [deleteTargetGroup, { isLoading: isDeleting }] =
+    useDeleteTargetGroupMutation()
   const { enqueueSnackbar } = useSnackbar()
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -79,7 +82,23 @@ const TargetGroupDialog = ({ open, onClose }: TargetGroupDialogProps) => {
     }
   }, [open])
 
-  const isLoading = isCreating || isUpdating
+  const isLoading = isCreating || isUpdating || isDeleting
+
+  const handleDelete = async () => {
+    if (typeof open !== "object") return
+    console.log(open)
+    try {
+      await deleteTargetGroup(open.id).unwrap()
+      handleClose()
+      enqueueSnackbar("교육 대상 관리가 성공적으로 삭제되었습니다.", {
+        variant: "success",
+      })
+    } catch {
+      enqueueSnackbar("교육 대상 관리 삭제에 실패했습니다.", {
+        variant: "error",
+      })
+    }
+  }
   return (
     <Dialog open={Boolean(open)} onClose={handleClose} fullWidth>
       <form onSubmit={e => void handleSubmit(e)}>
@@ -114,6 +133,16 @@ const TargetGroupDialog = ({ open, onClose }: TargetGroupDialogProps) => {
           </Stack>
         </DialogContent>
         <DialogActions>
+          {typeof open === "object" && (
+            <ConfirmButton
+              onClick={() => void handleDelete()}
+              loading={isDeleting}
+              color="error"
+              startIcon={<Delete />}
+            >
+              삭제
+            </ConfirmButton>
+          )}
           <Button type="submit" startIcon={<Save />} loading={isLoading}>
             저장
           </Button>

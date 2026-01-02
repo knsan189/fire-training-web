@@ -33,7 +33,7 @@ const TargetGroupCard = () => {
         />
         <Divider />
         <CardContent>
-          <Stack direction="row" spacing={1} flexWrap="wrap">
+          <Stack direction="row" spacing={1} flexWrap="wrap" rowGap={1}>
             {targetGroups.map(targetGroup => (
               <Button
                 key={targetGroup.id}

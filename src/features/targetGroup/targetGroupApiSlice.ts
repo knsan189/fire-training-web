@@ -73,4 +73,5 @@ export const {
   useGetTargetGroupsQuery,
   useCreateTargetGroupMutation,
   useUpdateTargetGroupMutation,
+  useDeleteTargetGroupMutation,
 } = targetGroupApiSlice
