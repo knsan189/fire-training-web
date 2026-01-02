@@ -1,5 +1,7 @@
+import { Navigate } from "react-router-dom"
+
 const Home = () => {
-  return <div>aa</div>
+  return <Navigate to="/scenario" />
 }
 
 export default Home
