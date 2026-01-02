@@ -6,7 +6,7 @@ const baseApi = createApi({
   reducerPath: "baseApi",
   baseQuery: fetchBaseQuery({ baseUrl }),
   endpoints: () => ({}),
-  tagTypes: ["Scenario", "User", "TargetGroup"],
+  tagTypes: ["Scenario", "User", "TargetGroup", "Prerequisite", "ExerciseType"],
 })
 
 export default baseApi
