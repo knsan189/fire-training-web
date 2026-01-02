@@ -17,6 +17,7 @@ import {
   CardContent,
   Grid,
   IconButton,
+  InputAdornment,
   MenuItem,
   Stack,
   TextField,
@@ -297,6 +298,15 @@ const ScenarioDetailPage = () => {
                   type="number"
                   fullWidth
                   disabled={minimumLoading}
+                  slotProps={{
+                    input: {
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <Typography variant="caption">℃</Typography>
+                        </InputAdornment>
+                      ),
+                    },
+                  }}
                 />
               </Grid>
               <Grid size={3}>
@@ -308,16 +318,35 @@ const ScenarioDetailPage = () => {
                   type="number"
                   fullWidth
                   disabled={minimumLoading}
+                  slotProps={{
+                    input: {
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <Typography variant="caption">%</Typography>
+                        </InputAdornment>
+                      ),
+                    },
+                  }}
                 />
               </Grid>
               <Grid size={4}>
                 <TextField
                   label="소요 시간"
+                  type="number"
                   name="duration"
                   value={values.duration}
                   onChange={handleChangeInput}
                   fullWidth
                   disabled={minimumLoading}
+                  slotProps={{
+                    input: {
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <Typography variant="caption">분</Typography>
+                        </InputAdornment>
+                      ),
+                    },
+                  }}
                 />
               </Grid>
               <Grid size={4}>
@@ -341,8 +370,18 @@ const ScenarioDetailPage = () => {
                   name="numberOfStudents"
                   value={values.numberOfStudents}
                   onChange={handleChangeInput}
+                  type="number"
                   fullWidth
                   disabled={minimumLoading}
+                  slotProps={{
+                    input: {
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <Typography variant="caption">명</Typography>
+                        </InputAdornment>
+                      ),
+                    },
+                  }}
                 />
               </Grid>
             </Grid>
@@ -438,6 +477,7 @@ const ScenarioDetailPage = () => {
                   onChange={handleChangeOfficeInCharge}
                   label="총괄 교관"
                   disabled={minimumLoading}
+                  required
                 />
               </Grid>
               <Grid size={6}>

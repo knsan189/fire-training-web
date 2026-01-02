@@ -8,6 +8,7 @@ interface UserAutocompleteProps {
   label?: string
   placeholder?: string
   disabled: boolean
+  required?: boolean
 }
 
 interface UserAutocompleteMultipleProps {
@@ -17,6 +18,7 @@ interface UserAutocompleteMultipleProps {
   label?: string
   placeholder?: string
   multiple: true
+  required?: boolean
 }
 
 type Props = UserAutocompleteProps | UserAutocompleteMultipleProps
@@ -28,7 +30,7 @@ const isMultipleProps = (
 }
 
 const UserAutocomplete = (props: Props) => {
-  const { label, placeholder, disabled } = props
+  const { label, placeholder, disabled, required } = props
   const [inputValue, setInputValue] = useState("")
 
   const { data: users = [] } = useGetUsersQuery({
@@ -52,7 +54,12 @@ const UserAutocomplete = (props: Props) => {
         disabled={disabled}
         onInputChange={(_event, value) => setInputValue(value)}
         renderInput={params => (
-          <TextField {...params} label={label} placeholder={placeholder} />
+          <TextField
+            {...params}
+            label={label}
+            placeholder={placeholder}
+            required={required}
+          />
         )}
         options={users}
         getOptionLabel={user => user.name ?? "이름 없음"}
@@ -90,7 +97,12 @@ const UserAutocomplete = (props: Props) => {
       onChange={handleChange}
       onInputChange={(_event, value) => setInputValue(value)}
       renderInput={params => (
-        <TextField {...params} label={label} placeholder={placeholder} />
+        <TextField
+          {...params}
+          label={label}
+          placeholder={placeholder}
+          required={required}
+        />
       )}
       options={users}
       getOptionLabel={user => user.name ?? user.email}
