@@ -2,10 +2,13 @@ import { StrictMode } from "react"
 import { createRoot } from "react-dom/client"
 import { Provider } from "react-redux"
 import { App } from "./App"
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns"
 import { store } from "./app/store"
 import { CssBaseline, ThemeProvider } from "@mui/material"
 import theme from "./app/theme/theme"
 import { SnackbarProvider } from "notistack"
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider"
+import { ko } from "date-fns/locale"
 
 const container = document.getElementById("root")
 
@@ -14,16 +17,18 @@ if (container) {
 
   root.render(
     <StrictMode>
-      <Provider store={store}>
-        <ThemeProvider theme={theme}>
-          <SnackbarProvider
-            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-          >
-            <CssBaseline />
-            <App />
-          </SnackbarProvider>
-        </ThemeProvider>
-      </Provider>
+      <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={ko}>
+        <Provider store={store}>
+          <ThemeProvider theme={theme}>
+            <SnackbarProvider
+              anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+            >
+              <CssBaseline />
+              <App />
+            </SnackbarProvider>
+          </ThemeProvider>
+        </Provider>
+      </LocalizationProvider>
     </StrictMode>,
   )
 } else {

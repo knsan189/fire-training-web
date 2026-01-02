@@ -37,6 +37,8 @@ import ScenarioNozzelSettingItem from "../../features/scenario/components/Scenar
 import { skipToken } from "@reduxjs/toolkit/query"
 import { useSnackbar } from "notistack"
 import { useMinimumLoading } from "../../features/layout/hooks/useMinimumLoading"
+import ScenarioEquipmentCard from "../../features/scenario/components/ScenarioEquipmentCard"
+import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker"
 
 const initialValues: Omit<ScenarioDetail, "id" | "createdAt" | "updatedAt"> = {
   name: "",
@@ -141,6 +143,10 @@ const ScenarioDetailPage = () => {
 
   const handleChangeOfficeInCharge = (officeInCharge: User | null) => {
     setValues({ ...values, officeInCharge })
+  }
+
+  const handleChangeStartedAt = (startedAt: Date | null) => {
+    setValues({ ...values, startedAt: startedAt?.toISOString() ?? null })
   }
 
   const handleChangeInstructor = (
@@ -264,13 +270,12 @@ const ScenarioDetailPage = () => {
                 />
               </Grid>
               <Grid size={3}>
-                <TextField
+                <DateTimePicker
+                  value={
+                    values.startedAt ? new Date(values.startedAt) : undefined
+                  }
                   label="훈련 시작 시간"
-                  name="startedAt"
-                  value={values.startedAt}
-                  onChange={handleChangeInput}
-                  fullWidth
-                  disabled={minimumLoading}
+                  onChange={handleChangeStartedAt}
                 />
               </Grid>
               <Grid size={3}>
@@ -379,6 +384,8 @@ const ScenarioDetailPage = () => {
             </Grid>
           </CardContent>
         </Card>
+        <ScenarioEquipmentCard />
+        <Card variant="outlined"></Card>
         <Card variant="outlined">
           <CardContent>
             <Grid container spacing={3}>

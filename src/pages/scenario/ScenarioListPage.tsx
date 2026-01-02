@@ -35,7 +35,7 @@ const columns: GridColDef<Scenario>[] = [
 ]
 
 const ScenarioListPage = () => {
-  const { data: scenarios = [] } = useGetScenariosQuery()
+  const { data: scenarios = [], isLoading } = useGetScenariosQuery()
   const navigate = useNavigate()
 
   const handleRowClick = (row: GridRowParams<Scenario>) => {
@@ -50,7 +50,7 @@ const ScenarioListPage = () => {
     <>
       <ContentHeader
         title="훈련계획 목록"
-        breadcrumbs={[]}
+        breadcrumbs={[{ label: "훈련계획 목록" }]}
         action={
           <Button
             variant="contained"
@@ -66,6 +66,7 @@ const ScenarioListPage = () => {
           rows={scenarios}
           columns={columns}
           onRowClick={handleRowClick}
+          loading={isLoading}
         />
       </Card>
     </>
