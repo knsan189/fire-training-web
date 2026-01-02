@@ -27,7 +27,7 @@ interface Path {
 const paths: Path[] = [
   {
     to: "/scenario",
-    text: "시나리오 관리",
+    text: "훈련계획 관리",
     icon: <ForkRight />,
   },
   {

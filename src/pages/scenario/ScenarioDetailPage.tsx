@@ -222,7 +222,7 @@ const ScenarioDetailPage = () => {
   return (
     <>
       <ContentHeader
-        title="훈련 상세"
+        title="훈련계획 상세"
         breadcrumbs={[
           { label: "훈련 목록", href: "/scenario" },
           { label: isNew ? "신규 훈련 등록" : (scenario?.name ?? "") },

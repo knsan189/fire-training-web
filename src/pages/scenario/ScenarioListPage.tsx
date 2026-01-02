@@ -49,7 +49,7 @@ const ScenarioListPage = () => {
   return (
     <>
       <ContentHeader
-        title="시나리오 목록"
+        title="훈련계획 목록"
         breadcrumbs={[]}
         action={
           <Button
